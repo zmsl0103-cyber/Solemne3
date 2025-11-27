@@ -7,9 +7,7 @@ import seaborn as sns
 
 st.set_page_config(page_title="Análisis de Países en Español", layout="wide")
 
-# ==========================
-# 1. CARGA DE DATOS DESDE API CON MANEJO DE ERRORES
-# ==========================
+#cargar datos de API con Try-except
 @st.cache_data
 def cargar_datos():
     url = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,languages,currencies"
@@ -57,10 +55,7 @@ if df.empty:
     st.stop()  # Detiene la app si no hay datos
 
 st.title("Análisis de países del mundo (datos en español)")
-
-# ==========================
-# 2. COMPONENTES DE FILTRO
-# ==========================
+#filtros
 st.sidebar.header("Filtros")
 
 region_sel = st.sidebar.selectbox(
@@ -90,9 +85,7 @@ df_filtrado = df_filtrado[(df_filtrado["Población"] >= poblacion_min) & (df_fil
 st.write(f"Se muestran {len(df_filtrado)} países tras aplicar los filtros")
 st.dataframe(df_filtrado)
 
-# ==========================
-# 3. GRÁFICOS
-# ==========================
+#graficos
 st.subheader("Visualizaciones")
 
 # --- 1. Barra de población por país (Top 10) ---
@@ -141,20 +134,7 @@ plt.ylabel("Población")
 st.pyplot(plt)
 plt.clf()
 
-# ==========================
-# 4. RESUMEN Y CONCLUSIONES
-# ==========================
-st.subheader("Resumen y conclusiones")
-st.markdown("""
-- Los gráficos permiten comparar población, área y distribución por región de manera visual.
-- El histograma muestra que la mayoría de los países tiene áreas relativamente pequeñas comparadas con unos pocos gigantes.
-- La relación entre área y población no siempre es proporcional: algunos países muy grandes tienen poca población y viceversa.
-- Con estos filtros y gráficos interactivos, se puede explorar la información por región, subregión y rango de población.
-""")
-
-# ==========================
 # 5. EXPLORACIÓN ADICIONAL
-# ==========================
 st.subheader("Exploración de un país")
 if not df_filtrado.empty:
     pais_sel = st.selectbox("Selecciona un país para ver detalles", options=df_filtrado["Nombre"].sort_values())
@@ -169,3 +149,4 @@ if not df_filtrado.empty:
     st.write(f"**Monedas:** {info_pais.get('Moneda(s)', 'No existe')}")
 else:
     st.write("No hay países que cumplan con los filtros seleccionados.")
+
