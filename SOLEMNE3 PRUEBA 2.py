@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import plotly.express as px
+import math
 
 st.set_page_config(page_title="Análisis de países del mundo", layout="wide")
 
@@ -109,16 +110,16 @@ with tab2:
     pais_sel = st.selectbox("Selecciona un país:", options=df["Nombre"].sort_values())
     info_pais = df[df["Nombre"] == pais_sel].iloc[0]
 
-    # Convertir valores a tipos correctos para evitar StreamlitMixedNumericTypesError
+    # Convertir valores a tipos correctos y evitar NaN
     poblacion = int(info_pais["Población"]) if pd.notnull(info_pais["Población"]) else 0
-    area = float(info_pais["Área (km²)"]) if pd.notnull(info_pais["Área (km²)"]) else 0.0
+    area = float(info_pais["Área (km²)"]) if pd.notnull(info_pais["Área (km²)"]) and not math.isnan(info_pais["Área (km²)"]) else 0.0
 
     st.text_input("Nombre", value=info_pais["Nombre"], key="nombre")
     st.text_input("Capital", value=info_pais["Capital"], key="capital")
     st.text_input("Región", value=info_pais["Región"], key="region")
     st.text_input("Subregión", value=info_pais["Subregión"], key="subregion")
-    st.number_input("Población", value=poblacion, step=1, key="poblacion")
-    st.number_input("Área (km²)", value=area, step=1, key="area")
+    st.number_input("Población", value=poblacion, step=1, min_value=0, key="poblacion")
+    st.number_input("Área (km²)", value=area, step=1.0, min_value=0.0, key="area")
     st.text_input("Idiomas", value=info_pais["Idioma(s)"], key="idiomas")
     st.text_input("Monedas", value=info_pais["Moneda(s)"], key="monedas")
 
@@ -138,7 +139,7 @@ with tab3:
     )
 
 # =========================
-# Componentes adicionales para cumplir requerimiento de >12
+# Componentes adicionales (>12)
 # =========================
 st.checkbox("Mostrar descripción extendida de la app", value=False)
 st.radio("Selecciona tipo de gráfico favorito", ["Barra", "Histograma", "Pie", "Scatter"])
