@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import plotly.express as px
 
-st.set_page_config(page_title="Análisis de Países", layout="wide")
+st.set_page_config(page_title="Análisis de países", layout="wide")
 
 # ===================================
 # Cargar datos de API
@@ -51,7 +51,7 @@ if df.empty:
 # ===================================
 # Título y descripción
 # ===================================
-st.title("🌍 Análisis interactivo de países del mundo")
+st.title("Análisis de países del mundo")
 st.markdown("""
 Esta aplicación permite explorar información de países obtenida desde la **API REST pública RestCountries**.
 Puedes analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
@@ -86,7 +86,8 @@ with tab1:
 
     st.subheader("Distribución por región")
     reg_counts = df["Región"].value_counts().reset_index()
-    fig3 = px.pie(reg_counts, names="index", values="Región", title="Proporción de países por región")
+    reg_counts.columns = ["Región", "Cantidad"]  # Renombrar columnas
+    fig3 = px.pie(reg_counts, names="Región", values="Cantidad", title="Proporción de países por región")
     st.plotly_chart(fig3, use_container_width=True)
     st.write("Se puede ver que la mayoría de los países se encuentran en África y Asia.")
 
