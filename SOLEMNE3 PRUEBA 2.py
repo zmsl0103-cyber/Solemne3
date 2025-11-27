@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import plotly.express as px
 
-st.set_page_config(page_title="Análisis de países", layout="wide")
+st.set_page_config(page_title="Análisis de países del mundo", layout="wide")
 
 # ===================================
 # Cargar datos de API
@@ -86,8 +86,10 @@ with tab1:
 
     st.subheader("Distribución por región")
     reg_counts = df["Región"].value_counts().reset_index()
-    reg_counts.columns = ["Región", "Cantidad"]  # Renombrar columnas
-    fig3 = px.pie(reg_counts, names="Región", values="Cantidad", title="Proporción de países por región")
+    reg_counts.columns = ["Región", "Cantidad"]  # renombrar correctamente
+    fig3 = px.pie(
+        reg_counts, names="Región", values="Cantidad", title="Proporción de países por región"
+    )
     st.plotly_chart(fig3, use_container_width=True)
     st.write("Se puede ver que la mayoría de los países se encuentran en África y Asia.")
 
@@ -107,14 +109,14 @@ with tab2:
     pais_sel = st.selectbox("Selecciona un país:", options=df["Nombre"].sort_values())
     info_pais = df[df["Nombre"] == pais_sel].iloc[0]
 
-    st.text_input("Nombre", value=info_pais["Nombre"])
-    st.text_input("Capital", value=info_pais["Capital"])
-    st.text_input("Región", value=info_pais["Región"])
-    st.text_input("Subregión", value=info_pais["Subregión"])
-    st.number_input("Población", value=info_pais["Población"], step=1)
-    st.number_input("Área (km²)", value=info_pais["Área (km²)"], step=1)
-    st.text_input("Idiomas", value=info_pais["Idioma(s)"])
-    st.text_input("Monedas", value=info_pais["Moneda(s)"])
+    st.text_input("Nombre", value=info_pais["Nombre"], key="nombre")
+    st.text_input("Capital", value=info_pais["Capital"], key="capital")
+    st.text_input("Región", value=info_pais["Región"], key="region")
+    st.text_input("Subregión", value=info_pais["Subregión"], key="subregion")
+    st.number_input("Población", value=info_pais["Población"], step=1, key="poblacion")
+    st.number_input("Área (km²)", value=info_pais["Área (km²)"], step=1, key="area")
+    st.text_input("Idiomas", value=info_pais["Idioma(s)"], key="idiomas")
+    st.text_input("Monedas", value=info_pais["Moneda(s)"], key="monedas")
 
     st.write("Esta sección permite inspeccionar la información detallada de cualquier país del mundo.")
 
