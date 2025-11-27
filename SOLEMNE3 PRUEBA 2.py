@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 import plotly.express as px
-import math
 
 st.set_page_config(page_title="Análisis de países del mundo", layout="wide")
 
@@ -55,11 +54,11 @@ if df.empty:
 st.title("Análisis de países del mundo")
 st.markdown("""
 Esta aplicación permite explorar información de países obtenida desde la **API REST pública RestCountries**.
-Puedes analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
+Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
 """)
 
 # ===================================
-# Pestañas de la aplicación
+# Pestañas
 # ===================================
 tab1, tab2, tab3 = st.tabs(["📊 Visualizaciones", "🔎 Exploración de país", "📄 Datos completos"])
 
@@ -75,7 +74,7 @@ with tab1:
         title="Top 10 países más poblados"
     )
     st.plotly_chart(fig1, use_container_width=True)
-    st.write("Observamos que China e India son los países con mayor población del mundo.")
+    st.write("China e India son los países con mayor población del mundo.")
 
     st.subheader("Distribución de área (km²)")
     fig2 = px.histogram(
@@ -83,16 +82,14 @@ with tab1:
         labels={"Área (km²)":"Área (km²)", "count":"Cantidad de países"}
     )
     st.plotly_chart(fig2, use_container_width=True)
-    st.write("La mayoría de los países tienen áreas medianas, mientras que unos pocos son extremadamente grandes.")
 
     st.subheader("Distribución por región")
     reg_counts = df["Región"].value_counts().reset_index()
-    reg_counts.columns = ["Región", "Cantidad"]  # renombrar correctamente
+    reg_counts.columns = ["Región", "Cantidad"]
     fig3 = px.pie(
         reg_counts, names="Región", values="Cantidad", title="Proporción de países por región"
     )
     st.plotly_chart(fig3, use_container_width=True)
-    st.write("Se puede ver que la mayoría de los países se encuentran en África y Asia.")
 
     st.subheader("Relación entre área y población")
     fig4 = px.scatter(
@@ -100,7 +97,6 @@ with tab1:
         hover_data=["Nombre", "Capital"], title="Área vs Población por país"
     )
     st.plotly_chart(fig4, use_container_width=True)
-    st.write("No siempre los países más grandes en área tienen mayor población.")
 
 # =========================
 # Tab 2: Exploración de un país
@@ -110,9 +106,12 @@ with tab2:
     pais_sel = st.selectbox("Selecciona un país:", options=df["Nombre"].sort_values())
     info_pais = df[df["Nombre"] == pais_sel].iloc[0]
 
-    # Convertir valores a tipos correctos y evitar NaN
-    poblacion = int(info_pais["Población"]) if pd.notnull(info_pais["Población"]) else 0
-    area = float(info_pais["Área (km²)"]) if pd.notnull(info_pais["Área (km²)"]) and not math.isnan(info_pais["Área (km²)"]) else 0.0
+    # Conversión segura para evitar StreamlitMixedNumericTypesError
+    poblacion = pd.to_numeric(info_pais["Población"], errors="coerce")
+    poblacion = int(poblacion) if not pd.isna(poblacion) else 0
+
+    area = pd.to_numeric(info_pais["Área (km²)"], errors="coerce")
+    area = float(area) if not pd.isna(area) else 0.0
 
     st.text_input("Nombre", value=info_pais["Nombre"], key="nombre")
     st.text_input("Capital", value=info_pais["Capital"], key="capital")
@@ -122,8 +121,6 @@ with tab2:
     st.number_input("Área (km²)", value=area, step=1.0, min_value=0.0, key="area")
     st.text_input("Idiomas", value=info_pais["Idioma(s)"], key="idiomas")
     st.text_input("Monedas", value=info_pais["Moneda(s)"], key="monedas")
-
-    st.write("Esta sección permite inspeccionar la información detallada de cualquier país del mundo.")
 
 # =========================
 # Tab 3: Datos completos
@@ -137,15 +134,3 @@ with tab3:
         file_name="paises.csv",
         mime="text/csv"
     )
-
-# =========================
-# Componentes adicionales (>12)
-# =========================
-st.checkbox("Mostrar descripción extendida de la app", value=False)
-st.radio("Selecciona tipo de gráfico favorito", ["Barra", "Histograma", "Pie", "Scatter"])
-st.slider("Simular número de países mostrados (solo visual)", 5, 20, 10)
-st.text_area("Comentarios sobre la visualización", "Escribe aquí tus notas...")
-st.expander("Más información sobre la API", expanded=False).markdown("""
-La API utilizada es RestCountries: https://restcountries.com/
-Datos actualizados y públicos.
-""")
