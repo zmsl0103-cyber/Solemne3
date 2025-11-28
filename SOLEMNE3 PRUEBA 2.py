@@ -76,11 +76,11 @@ with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
     
-    width = st.sidebar.slider("plot width", 0.1, 25., 3.)
-    height = st.sidebar.slider("plot height", 0.1, 25., 1.)
+    width = st.sidebar.slider("plot width", 1, 25., 3.)
+    height = st.sidebar.slider("plot height", 1, 25., 1.)
 
     
-    fig, ax = plt.subplots(figsize=(width, height))
+    fig, ax = plt.subplots(figsize=(10, 3))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
@@ -96,7 +96,7 @@ with tab1:
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(width, height))
 
     for region in regiones:
         sub = df_sorted[df_sorted["Región"] == region]
@@ -153,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
