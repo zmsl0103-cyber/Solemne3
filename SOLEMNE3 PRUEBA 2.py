@@ -121,7 +121,7 @@ with tab1:
 
     fig, ax = plt.subplots(figsize=(2, 8))
     ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': width * 2}, autopct='%1.1f%%')
-    ax.set_title("Proporción de países por Continentes")
+    ax.set_title("Proporción de países por Continentes", fontsize=10)
     st.pyplot(fig)
 
     st.subheader("Relación entre área y población")
@@ -153,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
