@@ -77,7 +77,7 @@ with tab1:
     top10 = df.sort_values("Población", ascending=False).head(10)
 
     fig, ax = plt.subplots(figsize=(10, 3))
-    ax.barh(top10["Nombre"], top10["Población"])
+    bars = ax.barh(top10["Nombre"], top10["Población"])
     ax.bar_label(bars)
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
