@@ -81,14 +81,14 @@ with tab1:
     # Histograma área 
     st.subheader("Distribución de área (km²)")
 
-    regiones = df["Continentes"].unique()
+    regiones = df["Región"].unique()
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
     for region in regiones:
-        sub = df_sorted[df_sorted["Continentes"] == region]
+        sub = df_sorted[df_sorted["Región"] == region]
         ax.plot(
             sub["Área (km²)"].values,
             marker="o",
@@ -107,7 +107,7 @@ with tab1:
 
     # gráfico de tota regiones
     st.subheader("Distribución por Continentes")
-    reg_counts = df["Continentes"].value_counts()
+    reg_counts = df["Región"].value_counts()
 
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.pie(reg_counts.values, labels=reg_counts.index, autopct='%1.1f%%')
@@ -145,4 +145,5 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
