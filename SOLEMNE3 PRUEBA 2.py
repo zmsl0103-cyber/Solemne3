@@ -76,8 +76,8 @@ with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
     
-    width = st.sidebar.slider("plot width", 1, 25., 3.)
-    height = st.sidebar.slider("plot height", 1, 25., 1.)
+    width = st.sidebar.slider("plot width", 0.1, 25., 3.)
+    height = st.sidebar.slider("plot height", 0.1, 25., 1.)
 
     
     fig, ax = plt.subplots(figsize=(10, 3))
@@ -153,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
