@@ -81,6 +81,7 @@ with tab1:
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
     ax.set_title("Top 10 países más poblados")
+    plt.figure(figsize=(10, 6))
     plt.tight_layout()
     st.pyplot(fig)
 
@@ -149,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
