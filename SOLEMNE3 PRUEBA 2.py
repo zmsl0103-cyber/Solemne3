@@ -110,7 +110,7 @@ with tab1:
     ax.set_title("Distribución de área de los continentes")
     ax.legend(title="Continentes")
 
-    plt.tight_layout()
+    # plt.tight_layout()
     st.pyplot(fig)
 
     st.subheader("Distribución por Continentes")
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
