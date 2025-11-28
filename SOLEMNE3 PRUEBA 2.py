@@ -11,7 +11,7 @@ def cargar_datos():
     url = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,languages,currencies"
     try:
         resp = requests.get(url, timeout=10)
-        # manejo de error URL
+# manejo de error URL
         if resp.status_code != 200:
             st.error(f"Error HTTP {resp.status_code}: No se pudo obtener la información.")
             return pd.DataFrame()
@@ -60,14 +60,15 @@ Esta aplicación permite explorar información de países obtenida desde la **AP
 Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
 """)
 
-# pestañas tab1 y tab2
-tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
+# Pestañas
+tab1, tab2 = st.tabs([" Visualizaciones", " Datos completos"])
 
 # visualizaciones
 with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
 
+    # Gráfico de barras horizontal
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
@@ -78,15 +79,35 @@ with tab1:
 
     st.write("China e India son los países con mayor población del mundo.")
 
+    # Gráfico de área
     st.subheader("Distribución de área (km²)")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.hist(df["Área (km²)"], bins=20)
-    ax.set_xlabel("Área (km²)")
-    ax.set_ylabel("Cantidad de países")
-    ax.set_title("Distribución de área de los países")
+
+    df_ordenado = df.sort_values("Área (km²)").reset_index(drop=True)
+
+    regiones = df_ordenado["Región"].astype('category')
+    colores = regiones.cat.codes
+
+    ax.plot(df_ordenado["Área (km²)"], marker="o", linestyle="-", linewidth=1)
+
+    # Leyenda por región
+    cmap = plt.cm.get_cmap("tab20")
+    region_labels = regiones.cat.categories
+    handles = [
+        plt.Line2D([0], [0], marker="o", color=cmap(i), linestyle="", label=region_labels[i])
+        for i in range(len(region_labels))
+    ]
+
+    ax.legend(handles=handles, title="Región")
+
+    ax.set_xlabel("Índice de país (ordenado por área)")
+    ax.set_ylabel("Área (km²)")
+    ax.set_title("Distribución de área de los países (líneas por región)")
+
     plt.tight_layout()
     st.pyplot(fig)
 
+    # gráfico de tota regiones
     st.subheader("Distribución por región")
     reg_counts = df["Región"].value_counts()
 
@@ -95,22 +116,26 @@ with tab1:
     ax.set_title("Proporción de países por región")
     st.pyplot(fig)
 
+    # grafico de disperción área vs población
     st.subheader("Relación entre área y población")
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    colores = df["Región"].astype('category').cat.codes  # Colores por región
+    regiones = df["Región"].astype('category')
+    colores = regiones.cat.codes
+    cmap = plt.cm.get_cmap("tab20")
 
-    scatter = ax.scatter(df["Área (km²)"], df["Población"], c=colores)
+    scatter = ax.scatter(df["Área (km²)"], df["Población"], c=colores, cmap="tab20")
     ax.set_xlabel("Área (km²)")
     ax.set_ylabel("Población")
     ax.set_title("Área vs Población por país")
 
-    # cuadro explicativo
+    # LEYENDA con colores segun region
+    region_labels = regiones.cat.categories
     handles = [
-        plt.Line2D([0], [0], marker='o', color='gray', linestyle="", label=region)
-        for region in df["Región"].unique()
+        plt.Line2D([0], [0], marker='o', color=cmap(i), linestyle="", label=region_labels[i])
+        for i in range(len(region_labels))
     ]
-    ax.legend(handles, df["Región"].unique(), title="Región")
+    ax.legend(handles=handles, title="Región")
 
     plt.tight_layout()
     st.pyplot(fig)
