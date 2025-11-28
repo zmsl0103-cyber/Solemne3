@@ -78,7 +78,7 @@ with tab1:
 
     fig, ax = plt.subplots(figsize=(10, 3))
     bars = ax.barh(top10["Nombre"], top10["Población"])
-    ax.bar_label(bars, label_type='center', padding = 8, fontsize=12)
+    ax.bar_label(bars, label_type='center', padding = 8, fontsize=4)
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
     ax.set_title("Top 10 países más poblados")
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
