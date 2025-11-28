@@ -75,8 +75,12 @@ tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
+    
+    width = st.sidebar.slider("plot width", 0.1, 25., 3.)
+    height = st.sidebar.slider("plot height", 0.1, 25., 1.)
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    fig, ax = plt.subplots(figsize=(width, height))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
@@ -149,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
