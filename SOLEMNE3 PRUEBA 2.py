@@ -121,7 +121,7 @@ with tab1:
     st.pyplot(fig)
 
     st.subheader("Relación entre área y población")
-    fig, ax = plt.subplots(figsize=(4, 8.5))
+    fig, ax = plt.subplots(figsize=(8.5, 4))
 
     for region in regiones:
         subset = df[df["Región"] == region]
@@ -149,6 +149,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
