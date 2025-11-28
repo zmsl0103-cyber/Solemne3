@@ -81,7 +81,7 @@ with tab1:
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
     ax.set_title("Top 10 países más poblados")
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(5, 3))
     plt.tight_layout()
     st.pyplot(fig)
 
@@ -93,7 +93,7 @@ with tab1:
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
-    fig, ax = plt.subplots(figsize=(5, 3))
+    fig, ax = plt.subplots(figsize=(10, 6))
 
     for region in regiones:
         sub = df_sorted[df_sorted["Región"] == region]
@@ -110,7 +110,7 @@ with tab1:
     ax.set_title("Distribución de área de los continentes")
     ax.legend(title="Continentes")
 
-    # plt.tight_layout()
+    plt.tight_layout()
     st.pyplot(fig)
 
     st.subheader("Distribución por Continentes")
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
