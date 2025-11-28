@@ -76,7 +76,7 @@ with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(6, 4))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
@@ -92,7 +92,7 @@ with tab1:
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(6, 4))
 
     for region in regiones:
         sub = df_sorted[df_sorted["Región"] == region]
@@ -115,13 +115,13 @@ with tab1:
     st.subheader("Distribución por Continentes")
     reg_counts = df["Región"].value_counts()
 
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(5, 5))
     ax.pie(reg_counts.values, labels=reg_counts.index, autopct='%1.1f%%')
     ax.set_title("Proporción de países por Continentes")
     st.pyplot(fig)
 
     st.subheader("Relación entre área y población")
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(6, 4))
 
     for region in regiones:
         subset = df[df["Región"] == region]
@@ -149,4 +149,5 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
