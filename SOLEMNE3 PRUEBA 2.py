@@ -96,7 +96,7 @@ with tab1:
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
-    fig, ax = plt.subplots(figsize=(width, height))
+    fig, ax = plt.subplots(figsize=(13, 5))
 
     for region in regiones:
         sub = df_sorted[df_sorted["Región"] == region]
@@ -119,7 +119,7 @@ with tab1:
     st.subheader("Distribución por Continentes")
     reg_counts = df["Región"].value_counts()
 
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(width, height))
     ax.pie(reg_counts.values, labels=reg_counts.index, autopct='%1.1f%%')
     ax.set_title("Proporción de países por Continentes")
     st.pyplot(fig)
@@ -153,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
