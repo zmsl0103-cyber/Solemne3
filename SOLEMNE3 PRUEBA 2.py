@@ -105,6 +105,11 @@ with tab1:
             color=mapa_colores[region]
         )
 
+    ax.update_layout(
+        autosize=True,
+        width=400,
+        height=400
+        )
     ax.set_xlabel("Índice de continentes (ordenado por área)")
     ax.set_ylabel("Área (km²)")
     ax.set_title("Distribución de área de los continentes")
@@ -150,6 +155,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
