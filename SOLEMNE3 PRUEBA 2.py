@@ -75,11 +75,7 @@ tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
-    
-    width = st.sidebar.slider("plot width", 0.1, 25., 3.)
-    height = st.sidebar.slider("plot height", 0.1, 25., 1.)
 
-    
     fig, ax = plt.subplots(figsize=(10, 3))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
@@ -125,7 +121,7 @@ with tab1:
     st.pyplot(fig)
 
     st.subheader("Relación entre área y población")
-    fig, ax = plt.subplots(figsize=(width, height))
+    fig, ax = plt.subplots(figsize=(4, 8.5))
 
     for region in regiones:
         subset = df[df["Región"] == region]
@@ -153,6 +149,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
