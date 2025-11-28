@@ -76,13 +76,12 @@ with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
 
-    fig, ax = plt.subplots(figsize=(5, 3))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
     ax.set_title("Top 10 países más poblados")
-    
-    # plt.tight_layout()
+    plt.tight_layout()
     st.pyplot(fig)
 
     st.write("China e India son los países con mayor población del mundo.")
@@ -150,6 +149,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
