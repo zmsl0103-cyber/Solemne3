@@ -52,6 +52,13 @@ df = cargar_datos()
 if df.empty:
     st.stop()
 
+
+df["Región"] = df["Región"].replace({
+    "Americas": "America",
+    "Europe": "Europa",
+    "Antarctic": "Antartica"
+})
+
 # Título y descripción
 st.title("Análisis de países")
 st.markdown("""
@@ -67,7 +74,6 @@ with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
 
-    # Gráfico de barras horizontal
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
@@ -78,7 +84,6 @@ with tab1:
 
     st.write("China e India son los países con mayor población del mundo.")
 
-    # Histograma área 
     st.subheader("Distribución de área (km²)")
 
     regiones = df["Región"].unique()
@@ -97,15 +102,14 @@ with tab1:
             color=mapa_colores[region]
         )
 
-    ax.set_xlabel("Índice de país (ordenado por área)")
+    ax.set_xlabel("Índice de continentes (ordenado por área)")
     ax.set_ylabel("Área (km²)")
-    ax.set_title("Distribución de área de los países")
+    ax.set_title("Distribución de área de los continentes")
     ax.legend(title="Continentes")
 
     plt.tight_layout()
     st.pyplot(fig)
 
-    # gráfico de tota regiones
     st.subheader("Distribución por Continentes")
     reg_counts = df["Región"].value_counts()
 
@@ -114,7 +118,6 @@ with tab1:
     ax.set_title("Proporción de países por Continentes")
     st.pyplot(fig)
 
-    # grafico de disperción área vs población 
     st.subheader("Relación entre área y población")
     fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -135,7 +138,6 @@ with tab1:
     plt.tight_layout()
     st.pyplot(fig)
 
-# datos completos de los países
 with tab2:
     st.subheader("Tabla completa de datos")
     st.dataframe(df)
@@ -145,5 +147,3 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
-
-
