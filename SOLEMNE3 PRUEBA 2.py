@@ -48,7 +48,6 @@ def cargar_datos():
 
     return pd.DataFrame(lista)
 
-
 df = cargar_datos()
 if df.empty:
     st.stop()
@@ -61,7 +60,7 @@ Se pueden analizar población, área, regiones, subregiones, idiomas y monedas d
 """)
 
 # Pestañas
-tab1, tab2 = st.tabs([" Visualizaciones", " Datos completos"])
+tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 
 # visualizaciones
 with tab1:
@@ -79,30 +78,29 @@ with tab1:
 
     st.write("China e India son los países con mayor población del mundo.")
 
-    # Gráfico de área
+    # Histograma área 
     st.subheader("Distribución de área (km²)")
+
+    regiones = df["Región"].unique()
+    mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
+    df_sorted = df.sort_values("Área (km²)")
+
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    df_ordenado = df.sort_values("Área (km²)").reset_index(drop=True)
-
-    regiones = df_ordenado["Región"].astype('category')
-    colores = regiones.cat.codes
-
-    ax.plot(df_ordenado["Área (km²)"], marker="o", linestyle="-", linewidth=1)
-
-    # Leyenda por región
-    cmap = plt.cm.get_cmap("tab20")
-    region_labels = regiones.cat.categories
-    handles = [
-        plt.Line2D([0], [0], marker="o", color=cmap(i), linestyle="", label=region_labels[i])
-        for i in range(len(region_labels))
-    ]
-
-    ax.legend(handles=handles, title="Región")
+    for region in regiones:
+        sub = df_sorted[df_sorted["Región"] == region]
+        ax.plot(
+            sub["Área (km²)"].values,
+            marker="o",
+            linestyle="-",
+            label=region,
+            color=mapa_colores[region]
+        )
 
     ax.set_xlabel("Índice de país (ordenado por área)")
     ax.set_ylabel("Área (km²)")
-    ax.set_title("Distribución de área de los países (líneas por región)")
+    ax.set_title("Distribución de área de los países")
+    ax.legend(title="Región")
 
     plt.tight_layout()
     st.pyplot(fig)
@@ -116,26 +114,23 @@ with tab1:
     ax.set_title("Proporción de países por región")
     st.pyplot(fig)
 
-    # grafico de disperción área vs población
+    # grafico de disperción área vs población 
     st.subheader("Relación entre área y población")
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    regiones = df["Región"].astype('category')
-    colores = regiones.cat.codes
-    cmap = plt.cm.get_cmap("tab20")
+    for region in regiones:
+        subset = df[df["Región"] == region]
+        ax.scatter(
+            subset["Área (km²)"],
+            subset["Población"],
+            color=mapa_colores[region],
+            label=region
+        )
 
-    scatter = ax.scatter(df["Área (km²)"], df["Población"], c=colores, cmap="tab20")
     ax.set_xlabel("Área (km²)")
     ax.set_ylabel("Población")
     ax.set_title("Área vs Población por país")
-
-    # LEYENDA con colores segun region
-    region_labels = regiones.cat.categories
-    handles = [
-        plt.Line2D([0], [0], marker='o', color=cmap(i), linestyle="", label=region_labels[i])
-        for i in range(len(region_labels))
-    ]
-    ax.legend(handles=handles, title="Región")
+    ax.legend(title="Región")
 
     plt.tight_layout()
     st.pyplot(fig)
