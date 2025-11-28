@@ -119,7 +119,7 @@ with tab1:
     st.subheader("Distribución por Continentes")
     reg_counts = df["Región"].value_counts()
 
-    fig, ax = plt.subplots(figsize=(width, height))
+    fig, ax = plt.subplots(figsize=(width, width))
     ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': width * 2}, autopct='%1.1f%%')
     ax.set_title("Proporción de países por Continentes")
     st.pyplot(fig)
@@ -153,6 +153,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
