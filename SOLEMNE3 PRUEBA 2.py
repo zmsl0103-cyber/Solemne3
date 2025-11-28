@@ -11,7 +11,7 @@ def cargar_datos():
     url = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,languages,currencies"
     try:
         resp = requests.get(url, timeout=10)
-        # manejo de error URL
+# manejo de error URL
         if resp.status_code != 200:
             st.error(f"Error HTTP {resp.status_code}: No se pudo obtener la información.")
             return pd.DataFrame()
@@ -60,14 +60,15 @@ Esta aplicación permite explorar información de países obtenida desde la **AP
 Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
 """)
 
-# pestañas 1 y 2 
-tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
+# Pestañas
+tab1, tab2 = st.tabs([" Visualizaciones", " Datos completos"])
 
 # visualizaciones
 with tab1:
     st.subheader("Población por país (Top 10)")
     top10 = df.sort_values("Población", ascending=False).head(10)
 
+    # Gráfico de barras horizontal
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.barh(top10["Nombre"], top10["Población"])
     ax.set_xlabel("Población")
@@ -78,15 +79,21 @@ with tab1:
 
     st.write("China e India son los países con mayor población del mundo.")
 
+    # Gráfico de lineas 
     st.subheader("Distribución de área (km²)")
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.hist(df["Área (km²)"], bins=20)
-    ax.set_xlabel("Área (km²)")
-    ax.set_ylabel("Cantidad de países")
-    ax.set_title("Distribución de área de los países")
+
+    datos_ordenados = df["Área (km²)"].sort_values().reset_index(drop=True)
+    ax.plot(datos_ordenados)
+
+    ax.set_xlabel("Índice de país (ordenado por área)")
+    ax.set_ylabel("Área (km²)")
+    ax.set_title("Distribución de área de los países (gráfico de líneas)")
+
     plt.tight_layout()
     st.pyplot(fig)
 
+    # gráfico de tota regiones
     st.subheader("Distribución por región")
     reg_counts = df["Región"].value_counts()
 
@@ -95,6 +102,7 @@ with tab1:
     ax.set_title("Proporción de países por región")
     st.pyplot(fig)
 
+    # grafico de disperción área vs población
     st.subheader("Relación entre área y población")
     fig, ax = plt.subplots(figsize=(10, 6))
 
