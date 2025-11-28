@@ -54,9 +54,11 @@ if df.empty:
 
 
 df["Región"] = df["Región"].replace({
-    "Americas": "America",
+    "Americas": "América",
     "Europe": "Europa",
-    "Antarctic": "Antartica"
+    "Antarctic": "Antártica",
+    "Africa":   "África",
+    "Oceania":  "Oceanía"
 })
 
 # Título y descripción
@@ -147,3 +149,4 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
