@@ -93,7 +93,7 @@ with tab1:
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(5, 3))
 
     for region in regiones:
         sub = df_sorted[df_sorted["Región"] == region]
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
