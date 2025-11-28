@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Análisis de países del mundo", layout="wide")
+st.set_page_config(page_title="Análisis de países", layout="wide")
 
 # Datos API
 @st.cache_data
@@ -81,14 +81,14 @@ with tab1:
     # Histograma área 
     st.subheader("Distribución de área (km²)")
 
-    regiones = df["Región"].unique()
+    regiones = df["Continentes"].unique()
     mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
     df_sorted = df.sort_values("Área (km²)")
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
     for region in regiones:
-        sub = df_sorted[df_sorted["Región"] == region]
+        sub = df_sorted[df_sorted["Continentes"] == region]
         ax.plot(
             sub["Área (km²)"].values,
             marker="o",
@@ -100,18 +100,18 @@ with tab1:
     ax.set_xlabel("Índice de país (ordenado por área)")
     ax.set_ylabel("Área (km²)")
     ax.set_title("Distribución de área de los países")
-    ax.legend(title="Región")
+    ax.legend(title="Continentes")
 
     plt.tight_layout()
     st.pyplot(fig)
 
     # gráfico de tota regiones
-    st.subheader("Distribución por región")
-    reg_counts = df["Región"].value_counts()
+    st.subheader("Distribución por Continentes")
+    reg_counts = df["Continentes"].value_counts()
 
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.pie(reg_counts.values, labels=reg_counts.index, autopct='%1.1f%%')
-    ax.set_title("Proporción de países por región")
+    ax.set_title("Proporción de países por Continentes")
     st.pyplot(fig)
 
     # grafico de disperción área vs población 
@@ -130,7 +130,7 @@ with tab1:
     ax.set_xlabel("Área (km²)")
     ax.set_ylabel("Población")
     ax.set_title("Área vs Población por país")
-    ax.legend(title="Región")
+    ax.legend(title="Continentes")
 
     plt.tight_layout()
     st.pyplot(fig)
@@ -145,3 +145,4 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
