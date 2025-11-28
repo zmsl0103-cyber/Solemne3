@@ -81,8 +81,8 @@ with tab1:
     ax.set_xlabel("Población")
     ax.set_ylabel("País")
     ax.set_title("Top 10 países más poblados")
-    plt.figure(figsize=(5, 3))
-    plt.tight_layout()
+    
+    # plt.tight_layout()
     st.pyplot(fig)
 
     st.write("China e India son los países con mayor población del mundo.")
@@ -150,6 +150,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
