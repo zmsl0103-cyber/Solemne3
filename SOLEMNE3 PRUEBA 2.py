@@ -135,12 +135,12 @@ with tab1:
         st.subheader("Relación entre área y población")
         fig, ax = plt.subplots(figsize=(8.5, 4))
         for region in regiones:
-            subset = df[df["Región"] == region2]
+            subset = df[df["Región"] == region]
             ax.scatter(
                 subset["Área (km²)"],
                 subset["Población"],
-                color=mapa_colores[region2],
-                label=region2
+                color=mapa_colores[region],
+                label=region
             )
     
         ax.set_xlabel("Área (km²)")
@@ -160,6 +160,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
