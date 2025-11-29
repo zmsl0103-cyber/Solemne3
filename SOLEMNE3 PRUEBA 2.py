@@ -131,25 +131,24 @@ with tab1:
         st.pyplot(fig)
 
 
-    if selection == "Área vs Población por país" :
-        st.subheader("Relación entre área y población")
-        fig, ax = plt.subplots(figsize=(8.5, 4))
-        for region in regiones:
-            subset = df[df["Región"] == region]
-            ax.scatter(
-                subset["Área (km²)"],
-                subset["Población"],
-                color=mapa_colores[region],
-                label=region
-            )
-    
-        ax.set_xlabel("Área (km²)")
-        ax.set_ylabel("Población")
-        ax.set_title("Área vs Población de cada país por Continente")
-        ax.legend(title="Continentes")
-    
-        plt.tight_layout()
-        st.pyplot(fig)
+    st.subheader("Relación entre área y población")
+    fig, ax = plt.subplots(figsize=(8.5, 4))
+    for region in regiones:
+        subset = df[df["Región"] == region]
+        ax.scatter(
+            subset["Área (km²)"],
+            subset["Población"],
+            color=mapa_colores[region],
+            label=region
+        )
+
+    ax.set_xlabel("Área (km²)")
+    ax.set_ylabel("Población")
+    ax.set_title("Área vs Población de cada país por Continente")
+    ax.legend(title="Continentes")
+
+    plt.tight_layout()
+    st.pyplot(fig)
 
 with tab2:
     st.subheader("Tabla completa de datos")
@@ -160,6 +159,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
