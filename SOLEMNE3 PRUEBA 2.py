@@ -134,8 +134,7 @@ with tab1:
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
         fig, ax = plt.subplots(figsize=(8.5, 4))
-    
-        for region2 in regiones2:
+        for region in regiones:
             subset = df[df["Región"] == region2]
             ax.scatter(
                 subset["Área (km²)"],
@@ -161,6 +160,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
