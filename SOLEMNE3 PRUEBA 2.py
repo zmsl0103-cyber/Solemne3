@@ -73,23 +73,28 @@ tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 
 # visualizaciones
 with tab1:
-    st.subheader("Población por país (Top 10)")
-    top10 = df.sort_values("Población", ascending=False).head(10)
+    opciones = ["Población por país (Top 10)", "Distribución de área (km²)", "Distribución de paises por Continentes", "Área vs Población por país"]
+    selection = st.pills("Elija el grafico para Visualizar", opciones, selection_mode="single")
 
-    fig, ax = plt.subplots(figsize=(10, 3))
-    bars = ax.barh(top10["Nombre"], top10["Población"])
+    if selection = "Población por país (Top 10)" :
+        st.subheader("Población por país (Top 10)")
+        
+        top10 = df.sort_values("Población", ascending=False).head(10)
     
-    on = st.toggle("Mostrar valores numericos.")
-    if on:
-        ax.bar_label(bars, label_type='center', padding = 2, fontsize=6)
-    
-    ax.set_xlabel("Población")
-    ax.set_ylabel("País")
-    ax.set_title("Top 10 países más poblados")
-    plt.tight_layout()
-    st.pyplot(fig)
+        fig, ax = plt.subplots(figsize=(10, 3))
+        bars = ax.barh(top10["Nombre"], top10["Población"])
+        
+        on = st.toggle("Mostrar valores numericos.")
+        if on:
+            ax.bar_label(bars, label_type='center', padding = 2, fontsize=6)
+        
+        ax.set_xlabel("Población")
+        ax.set_ylabel("País")
+        ax.set_title("Top 10 países más poblados")
+        plt.tight_layout()
+        st.pyplot(fig)
 
-    st.write("China e India son los países con mayor población del mundo.")
+ 
 
     st.subheader("Distribución de área (km²)")
 
@@ -117,7 +122,8 @@ with tab1:
     plt.tight_layout()
     st.pyplot(fig)
 
-    st.subheader("Distribución por Continentes")
+    
+    st.subheader("Distribución de paises por Continentes")
     reg_counts = df["Región"].value_counts()
 
     fig, ax = plt.subplots(figsize=(2, 8))
@@ -139,7 +145,7 @@ with tab1:
 
     ax.set_xlabel("Área (km²)")
     ax.set_ylabel("Población")
-    ax.set_title("Área vs Población por país")
+    ax.set_title("Área vs Población de cada país por Continente")
     ax.legend(title="Continentes")
 
     plt.tight_layout()
@@ -154,6 +160,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
