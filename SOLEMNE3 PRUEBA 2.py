@@ -113,12 +113,10 @@ with tab1:
                 label=region,
                 color=mapa_colores[region]
             )
-    
         ax.set_xlabel("Índice de continentes (ordenado por área)")
         ax.set_ylabel("Área (km²)")
         ax.set_title("Distribución de área de los continentes")
         ax.legend(title="Continentes")
-    
         plt.tight_layout()
         st.pyplot(fig)
 
@@ -137,13 +135,13 @@ with tab1:
         st.subheader("Relación entre área y población")
         fig, ax = plt.subplots(figsize=(8.5, 4))
     
-        for region in regiones:
-            subset = df[df["Región"] == region]
+        for region2 in regiones2:
+            subset = df[df["Región"] == region2]
             ax.scatter(
                 subset["Área (km²)"],
                 subset["Población"],
-                color=mapa_colores[region],
-                label=region
+                color=mapa_colores[region2],
+                label=region2
             )
     
         ax.set_xlabel("Área (km²)")
@@ -163,6 +161,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
