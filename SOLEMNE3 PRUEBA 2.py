@@ -117,7 +117,7 @@ with tab1:
             sub = df_sorted[df_sorted["Región"] == region]
             ax.plot(
                 sub["Área (km²)"].values,
-                marker="o",
+                marker=".",
                 linestyle=style,
                 label=region,
                 color=mapa_colores[region]
@@ -168,6 +168,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
