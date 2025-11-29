@@ -123,8 +123,8 @@ with tab1:
     fig, ax = plt.subplots(figsize=(2, 8))
     pies = ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': 4}, autopct='%1.1f%%')
     ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
-    on = st.toggle("Mostrar valores numericos.")
-    if on:
+    on2 = st.toggle("Mostrar valores numericos.")
+    if on2:
         ax.bar_label(pies, label_type='center', padding = 2, fontsize=6)
     st.pyplot(fig)
 
@@ -157,6 +157,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
