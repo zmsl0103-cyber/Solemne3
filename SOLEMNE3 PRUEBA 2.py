@@ -133,6 +133,7 @@ with tab1:
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
         regiones = df["Región"].unique()
+        mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         fig, ax = plt.subplots(figsize=(8.5, 4))
         for region in regiones:
             subset = df[df["Región"] == region]
@@ -158,6 +159,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
