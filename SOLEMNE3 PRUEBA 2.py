@@ -121,32 +121,33 @@ with tab1:
         st.pyplot(fig)
 
  
+    if selection == "Distribución de paises por Continentes" :
+        st.subheader("Distribución de paises por Continentes")
+        reg_counts = df["Región"].value_counts()
     
-    st.subheader("Distribución de paises por Continentes")
-    reg_counts = df["Región"].value_counts()
+        fig, ax = plt.subplots(figsize=(2, 8))
+        pies = ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': 4}, autopct='%1.1f%%')
+        ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots(figsize=(2, 8))
-    pies = ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': 4}, autopct='%1.1f%%')
-    ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
-    st.pyplot(fig)
-
-
-    st.subheader("Relación entre área y población")
-    fig, ax = plt.subplots(figsize=(8.5, 4))
-    for region in regiones:
-        subset = df[df["Región"] == region]
-        ax.scatter(
-            subset["Área (km²)"],
-            subset["Población"],
-            color=mapa_colores[region],
-            label=region
-        )
-    ax.set_xlabel("Área (km²)")
-    ax.set_ylabel("Población")
-    ax.set_title("Área vs Población de cada país por Continente")
-    ax.legend(title="Continentes")
-    plt.tight_layout()
-    st.pyplot(fig)
+    if selection == "Área vs Población por país" :
+        st.subheader("Relación entre área y población")
+        regiones = df["Región"].unique()
+        fig, ax = plt.subplots(figsize=(8.5, 4))
+        for region in regiones:
+            subset = df[df["Región"] == region]
+            ax.scatter(
+                subset["Área (km²)"],
+                subset["Población"],
+                color=mapa_colores[region],
+                label=region
+            )
+        ax.set_xlabel("Área (km²)")
+        ax.set_ylabel("Población")
+        ax.set_title("Área vs Población de cada país por Continente")
+        ax.legend(title="Continentes")
+        plt.tight_layout()
+        st.pyplot(fig)
 
 with tab2:
     st.subheader("Tabla completa de datos")
@@ -157,6 +158,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
