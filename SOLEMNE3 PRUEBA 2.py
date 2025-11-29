@@ -104,20 +104,21 @@ with tab1:
         
         fig, ax = plt.subplots(figsize=(13, 5))
         v = st.slider("Elije estilo de linea", 1, 4, 1,1)
-        def style(val):
-            return {
-                "1": "-",
-                "2": "--",
-                "3": "-.",
-                "4": ":"
-            }
-        
+        if v == 1:
+            style = "-"
+        elif v == 2:
+            style = "--"
+        elif v == 3:
+            style = "-."
+        elif v == 4:
+            style = ":"
+            
         for region in regiones:
             sub = df_sorted[df_sorted["Región"] == region]
             ax.plot(
                 sub["Área (km²)"].values,
                 marker="o",
-                linestyle=style(v),
+                linestyle=style,
                 label=region,
                 color=mapa_colores[region]
             )
@@ -167,6 +168,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
