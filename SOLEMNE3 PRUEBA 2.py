@@ -76,7 +76,7 @@ with tab1:
     opciones = ["Población por país (Top 10)", "Distribución de área (km²)", "Distribución de paises por Continentes", "Área vs Población por país"]
     selection = st.pills("Elija el grafico para Visualizar", opciones, selection_mode="single")
 
-    if selection = "Población por país (Top 10)" :
+    if selection == "Población por país (Top 10)" :
         st.subheader("Población por país (Top 10)")
         
         top10 = df.sort_values("Población", ascending=False).head(10)
@@ -160,6 +160,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
