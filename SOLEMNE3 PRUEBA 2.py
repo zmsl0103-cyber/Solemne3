@@ -101,9 +101,10 @@ with tab1:
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         df_sorted = df.sort_values("Área (km²)")
-    
+        
+        st.slider("Elije estilo de linea", 1, 4, 1,1)
+        
         fig, ax = plt.subplots(figsize=(13, 5))
-    
         for region in regiones:
             sub = df_sorted[df_sorted["Región"] == region]
             ax.plot(
@@ -159,6 +160,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
