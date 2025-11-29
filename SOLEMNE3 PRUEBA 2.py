@@ -79,7 +79,7 @@ with tab1:
     fig, ax = plt.subplots(figsize=(10, 3))
     bars = ax.barh(top10["Nombre"], top10["Población"])
     
-    on = st.toggle("Activate feature")
+    on = st.toggle("Mostrar valores numericos.")
     if on:
         ax.bar_label(bars, label_type='center', padding = 2, fontsize=6)
     
@@ -154,6 +154,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
