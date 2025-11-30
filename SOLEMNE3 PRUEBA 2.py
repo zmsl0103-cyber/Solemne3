@@ -166,12 +166,12 @@ with tab1:
                     )
             else:
                 subset = df[df["Región"] == region]
-                    ax.scatter(
+                ax.scatter(
                         subset["Área (km²)"],
                         subset["Población"],
                         color=mapa_colores[region],
                         label=region
-                    )
+                )
         
         ax.set_xlabel("Área (km²)")
         ax.set_ylabel("Población")
@@ -189,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
