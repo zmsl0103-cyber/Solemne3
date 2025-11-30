@@ -94,9 +94,11 @@ with tab1:
         plt.tight_layout()
         st.pyplot(fig)
 
- 
+        st.write("Se observa claramente que China e India son los países más poblados, seguidos por Estados Unidos e Indonesia en un tercer y cuarto lugar bastante lejano.")
+        st.write("Con esta forma de graficar se puede dimensionar cómo se concentra gran parte de la población mundial en muy pocos países.")
+        
     if selection == "Distribución de área (km²)" :
-        st.subheader("Distribución de área (km²)")
+        st.subheader("Distribución de área de paises segun continentes (km²)")
     
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
@@ -133,7 +135,8 @@ with tab1:
         plt.tight_layout()
         st.pyplot(fig)
 
- 
+        st.write("Las lineas del grafico muestran que algunos continentes tienen países extremadamente extensos, mientras que otros continentes presentan países con áreas más homogéneas")
+                 
     if selection == "Distribución de paises por Continentes" :
         st.subheader("Distribución de paises por Continentes")
         reg_counts = df["Región"].value_counts()
@@ -143,6 +146,8 @@ with tab1:
         ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
         st.pyplot(fig)
 
+        st.write("Al ordenar los datos de este modo, se observa que África tiene la mayor cantidad de países, mientras que Oceanía y sobre todo Antártica presentan los valores más bajos.")
+    
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
         regiones = df["Región"].unique()
@@ -180,6 +185,9 @@ with tab1:
         plt.tight_layout()
         st.pyplot(fig)
 
+        st.write("Se puede notar que Continentes como Europa tienen países pequeños pero muy poblados, mientras que Oceanía tiene países extensos con muy poca población.")
+        st.write("De esto, se concluye que no existe relación directa entre tamaño y población.")
+
 with tab2:
     st.subheader("Tabla completa de datos")
     st.dataframe(df)
@@ -189,6 +197,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
