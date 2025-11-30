@@ -148,10 +148,9 @@ with tab1:
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         fig, ax = plt.subplots(figsize=(8.5, 4))
-        continentes = st.multiselect(
+        continentes = st.selectbox(
             "Continente Especifico",
             ("Ninguno", "América", "Asia", "Europa", "Oceanía", "África", "Antártica"),
-            default= "Ninguno"
         )
         for region in regiones:
             if continentes != "Ninguno":
@@ -190,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
