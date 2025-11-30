@@ -153,7 +153,7 @@ with tab1:
             ("Ninguno", "Home phone", "Mobile phone"),
         )
         for region in regiones:
-            if continente != "Ninguno:
+            if continente != "Ninguno":
                 if region != continente:
                     continue
                 else:
@@ -189,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
