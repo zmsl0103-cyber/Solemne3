@@ -102,7 +102,7 @@ with tab1:
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         df_sorted = df.sort_values("Área (km²)")
         
-        fig, ax = plt.subplots(figsize=(13, 5))
+        fig, ax = plt.subplots(figsize=(20, 10))
         v = st.slider("Elije estilo de lineas.", 1, 4, 1,1)
         if v == 1:
             styleL = "-"
@@ -189,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
