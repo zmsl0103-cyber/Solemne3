@@ -95,7 +95,6 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Se observa claramente que China e India son los países más poblados, seguidos por Estados Unidos e Indonesia en un tercer y cuarto lugar bastante lejano.")
-        st.write("Con esta forma de graficar se puede dimensionar cómo se concentra gran parte de la población mundial en muy pocos países.")
         
     if selection == "Distribución de área (km²)" :
         st.subheader("Distribución de área de paises segun continentes (km²)")
@@ -197,6 +196,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
