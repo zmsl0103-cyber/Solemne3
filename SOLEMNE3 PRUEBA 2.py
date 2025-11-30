@@ -112,7 +112,7 @@ with tab1:
             styleM = "s"
         elif v == 3:
             styleL = "-."
-            styleM = ","
+            styleM = "x"
         elif v == 4:
             styleL = ":"
             styleM = "o"
@@ -172,6 +172,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
