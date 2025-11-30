@@ -148,14 +148,31 @@ with tab1:
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         fig, ax = plt.subplots(figsize=(8.5, 4))
+        continente = st.selectbox(
+            "Continente Especifico",
+            ("Ninguno", "Home phone", "Mobile phone"),
+        )
         for region in regiones:
-            subset = df[df["Región"] == region]
-            ax.scatter(
-                subset["Área (km²)"],
-                subset["Población"],
-                color=mapa_colores[region],
-                label=region
-            )
+            if continente != "Ninguno:
+                if region != continente:
+                    continue
+                else:
+                    subset = df[df["Región"] == region]
+                    ax.scatter(
+                        subset["Área (km²)"],
+                        subset["Población"],
+                        color=mapa_colores[region],
+                        label=region
+                    )
+            else:
+                subset = df[df["Región"] == region]
+                    ax.scatter(
+                        subset["Área (km²)"],
+                        subset["Población"],
+                        color=mapa_colores[region],
+                        label=region
+                    )
+        
         ax.set_xlabel("Área (km²)")
         ax.set_ylabel("Población")
         ax.set_title("Área vs Población de cada país por Continente")
@@ -172,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
