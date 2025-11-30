@@ -5,13 +5,11 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análisis de países", layout="wide")
 
-# Datos API
 @st.cache_data
 def cargar_datos():
     url = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,languages,currencies"
     try:
         resp = requests.get(url, timeout=10)
-# manejo de error URL
         if resp.status_code != 200:
             st.error(f"Error HTTP {resp.status_code}: No se pudo obtener la información.")
             return pd.DataFrame()
@@ -52,7 +50,6 @@ df = cargar_datos()
 if df.empty:
     st.stop()
 
-
 df["Región"] = df["Región"].replace({
     "Americas": "América",
     "Europe": "Europa",
@@ -61,17 +58,14 @@ df["Región"] = df["Región"].replace({
     "Oceania":  "Oceanía"
 })
 
-# Título y descripción
 st.title("Análisis de países")
 st.markdown("""
 Esta aplicación permite explorar información de países obtenida desde la **API REST pública RestCountries**.
 Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
 """)
 
-# Pestañas
 tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 
-# visualizaciones
 with tab1:
     opciones = ["Población por país (Top 10)", "Distribución de área (km²)", "Distribución de paises por Continentes", "Área vs Población por país"]
     selection = st.pills("Elija el grafico para Visualizar", opciones, selection_mode="single")
@@ -139,13 +133,29 @@ with tab1:
     if selection == "Distribución de paises por Continentes" :
         st.subheader("Distribución de paises por Continentes")
         reg_counts = df["Región"].value_counts()
-    
+
+        modo = st.selectbox("Modo de visualización", ["Porcentajes", "Cantidad de países"])
+
         fig, ax = plt.subplots(figsize=(2, 8))
-        pies = ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': 4}, autopct='%1.1f%%')
+
+        if modo == "Porcentajes":
+            ax.pie(
+                reg_counts.values,
+                labels=reg_counts.index,
+                textprops={'fontsize': 4},
+                autopct='%1.1f%%'
+            )
+        else:
+            ax.pie(
+                reg_counts.values,
+                labels=[f"{r} ({v})" for r, v in zip(reg_counts.index, reg_counts.values)],
+                textprops={'fontsize': 4}
+            )
+
         ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
         st.pyplot(fig)
 
-        st.write("Al ordenar los datos de este modo, se observa que África tiene la mayor cantidad de países, mientras que Oceanía y sobre todo Antártica presentan los valores más bajos.")
+        st.write("Al ordenar los datos de este modo, se observa que África tiene la mayor cantidad de países, mientras que Oceanía y Antártica presentan valores más bajos.")
     
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
@@ -196,77 +206,3 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
