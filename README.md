@@ -4,7 +4,6 @@ Descripción:
 Esta aplicación web permite explorar información actualizada de distintos países del mundo. Los datos se obtienen automáticamente desde una API pública y se presentan mediante gráficos y tablas fáciles de interpretar. El objetivo es que cualquier persona pueda visualizar y comparar aspectos como población, área territorial, continentes, idiomas, capitales y otros datos generales, todo desde un navegador y de manera interactiva.
 
 Requisitos: 
-Para poder usar la aplicación solo necesitas:
 - Tener Python instalado en tu computador.
 - Contar con conexión a internet, ya que los datos se descargan en tiempo real.
 - Instalar algunas librerías que la aplicación necesita para funcionar (Streamlit, Pandas, Requests y Matplotlib).
