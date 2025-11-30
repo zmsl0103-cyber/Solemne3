@@ -150,7 +150,7 @@ with tab1:
         fig, ax = plt.subplots(figsize=(8.5, 4))
         continente = st.selectbox(
             "Continente Especifico",
-            ("Ninguno", "Home phone", "Mobile phone"),
+            ("Ninguno", "América", "Asia", "Europa", "Oceanía", "África", "Antártica"),
         )
         for region in regiones:
             if continente != "Ninguno":
@@ -189,6 +189,7 @@ with tab2:
         file_name="paises.csv",
         mime="text/csv"
     )
+
 
 
 
