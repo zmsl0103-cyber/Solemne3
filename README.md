@@ -11,9 +11,9 @@ Requisitos:
 
 Instalación: 
 Descarga o copia todos los archivos del proyecto dentro de una misma carpeta.
-Paso 1: Abre la terminal de tu computador.
-Paso 2: Ingresa a la carpeta donde guardaste el proyecto.
-Paso 3: Instala las librerías necesarias mediante el siguiente comando:
+- Paso 1: Abre la terminal de tu computador.
+- Paso 2: Ingresa a la carpeta donde guardaste el proyecto.
+- Paso 3: Instala las librerías necesarias mediante el siguiente comando:
                 pip install streamlit pandas requests matplotlib
 Cómo ejecutar la aplicación: 
 - Abre nuevamente la terminal.
