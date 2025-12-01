@@ -1,34 +1,25 @@
-# Importa las librerias 
 import streamlit as st
 import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 
-# Configura la página principal de la aplicación
 st.set_page_config(page_title="Análisis de países", layout="wide")
 
-# Cargar los datos desde la API
 @st.cache_data
 def cargar_datos():
-    # Se solicita la información necesaria a la API RestCountries 
     url = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,languages,currencies"
     try:
         resp = requests.get(url, timeout=10)
-
-        # Si la API responde con un código diferente a 200, se muestra un error
         if resp.status_code != 200:
             st.error(f"Error HTTP {resp.status_code}: No se pudo obtener la información.")
             return pd.DataFrame()
 
-        # Verifica que la API realmente devuelva datos en formato JSON
         if 'application/json' not in resp.headers.get('Content-Type', ''):
             st.error("La API no devolvió JSON válido.")
             return pd.DataFrame()
 
-        # Convierte la respuesta en un diccionario de Python
         data = resp.json()
 
-    # Manejo de errores si no hay conexión o si el JSON falla
     except requests.RequestException as e:
         st.error(f"No se pudo conectar con la API: {e}")
         return pd.DataFrame()
@@ -36,15 +27,12 @@ def cargar_datos():
         st.error(f"Error al procesar JSON de la API: {e}")
         return pd.DataFrame()
 
-    # Lista donde se guardarán los datos ordenados país por país
     lista = []
     for pais in data:
-        # Obtiene capital, idiomas y monedas asegurando que no provoquen error si no existen
         capital = pais.get("capital")[0] if pais.get("capital") else "No existe"
         idiomas = ", ".join(pais.get("languages", {}).values()) if pais.get("languages") else "No existe"
         monedas = ", ".join([v.get("name", "No existe") for v in pais.get("currencies", {}).values()]) if pais.get("currencies") else "No existe"
 
-        # Agrega la información del país en ordenado en una lista
         lista.append({
             "Nombre": pais.get("name", {}).get("common", "No existe"),
             "Población": pais.get("population", 0),
@@ -53,49 +41,43 @@ def cargar_datos():
             "Subregión": pais.get("subregion", "No existe"),
             "Capital": capital,
             "Idioma(s)": idiomas,
-            "Moneda(s)": monedas})
+            "Moneda(s)": monedas
+        })
 
-    # Se convierte la lista en un DataFrame para trabajar con ella
     return pd.DataFrame(lista)
 
-# Se cargan los datos y si están vacíos se detiene la app
 df = cargar_datos()
 if df.empty:
     st.stop()
 
-# Se reemplazan nombres de continentes para mostrarlos en español
 df["Región"] = df["Región"].replace({
     "Americas": "América",
     "Europe": "Europa",
     "Antarctic": "Antártica",
-    "Africa":   "África",
-    "Oceania":  "Oceanía"})
+    "Africa": "África",
+    "Oceania": "Oceanía"
+})
 
-# Título y texto explicativo principal
 st.title("Análisis de países")
-st.markdown(""" Esta aplicación permite explorar información de países obtenida desde la **API REST pública RestCountries**.
-Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.""")
+st.markdown("""
+Esta aplicación permite explorar información de países obtenida desde la **API REST pública RestCountries**.
+Se pueden analizar población, área, regiones, subregiones, idiomas y monedas de manera interactiva.
+""")
 
-# Se crean dos pestañas: una para gráficos y otra para ver los datos completos
 tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 
-# Contenido de la pestaña de visualizaciones
 with tab1:
-    # Lista de gráficos disponibles
     opciones = ["Población por país (Top 10)", "Distribución de área (km²)", "Distribución de paises por Continentes", "Área vs Población por país"]
-    selection = st.radio("Elija el gráfico para visualizar", opciones)
+    selection = st.pills("Elija el grafico para Visualizar", opciones, selection_mode="single")
 
-    # Gráfico de Top 10 países más poblados
     if selection == "Población por país (Top 10)" :
         st.subheader("Población por país (Top 10)")
 
-        # Ordena según población y toma los 10 más poblados
         top10 = df.sort_values("Población", ascending=False).head(10)
 
         fig, ax = plt.subplots(figsize=(10, 3))
         bars = ax.barh(top10["Nombre"], top10["Población"])
 
-        # Botón para decidir si se muestran o no los valores numéricos
         on = st.toggle("Mostrar valores numericos.")
         if on:
             ax.bar_label(bars, label_type='center', padding = 2, fontsize=6)
@@ -107,19 +89,15 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Se observa claramente que China e India son los países más poblados, seguidos por Estados Unidos e Indonesia en un tercer y cuarto lugar bastante lejano.")
-        
-    # Gráfico de distribución de área por continente
+
     if selection == "Distribución de área (km²)" :
         st.subheader("Distribución de área de paises segun continentes (km²)")
 
         regiones = df["Región"].unique()
-        # Se asignan colores automáticos a cada continente
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         df_sorted = df.sort_values("Área (km²)")
 
         fig, ax = plt.subplots(figsize=(13, 5))
-
-        # Slider que permite elegir el estilo de línea y marcador
         v = st.slider("Elije estilo de lineas.", 1, 4, 1,1)
         if v == 1:
             styleL = "-"
@@ -134,7 +112,6 @@ with tab1:
             styleL = ":"
             styleM = "o"
 
-        # Se dibuja la línea correspondiente a cada continente
         for region in regiones:
             sub = df_sorted[df_sorted["Región"] == region]
             ax.plot(
@@ -142,8 +119,8 @@ with tab1:
                 marker=styleM,
                 linestyle=styleL,
                 label=region,
-                color=mapa_colores[region] )
-
+                color=mapa_colores[region]
+            )
         ax.set_xlabel("Índice de continentes (ordenado por área)")
         ax.set_ylabel("Área (km²)")
         ax.set_title("Distribución de área de los continentes")
@@ -152,45 +129,43 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Las lineas del grafico muestran que algunos continentes tienen países extremadamente extensos, mientras que otros continentes presentan países con áreas más homogéneas")
-                 
-    # Gráfico de torta con opciones de porcentaje o cantidad
+
     if selection == "Distribución de paises por Continentes" :
         st.subheader("Distribución de paises por Continentes")
-
-        # Cuenta cuántos países hay en cada continente
         reg_counts = df["Región"].value_counts()
 
-        # Opción para elegir cómo mostrar los datos
         modo = st.selectbox("Modo de visualización", ["Porcentajes", "Cantidad de países"])
 
         fig, ax = plt.subplots(figsize=(2, 8))
 
-        # Gráfico de torta en porcentaje o en valores numéricos
         if modo == "Porcentajes":
-            ax.pie(reg_counts.values, labels=reg_counts.index, textprops={'fontsize': 4}, autopct='%1.1f%%')
+            ax.pie(
+                reg_counts.values,
+                labels=reg_counts.index,
+                textprops={'fontsize': 4},
+                autopct='%1.1f%%'
+            )
         else:
-            ax.pie(reg_counts.values, labels=[f"{r} ({v})" for r, v in zip(reg_counts.index, reg_counts.values)], textprops={'fontsize': 4})
+            ax.pie(
+                reg_counts.values,
+                labels=[f"{r} ({v})" for r, v in zip(reg_counts.index, reg_counts.values)],
+                textprops={'fontsize': 4}
+            )
 
         ax.set_title("Proporción de países por Continentes", fontdict={'fontsize': 15})
         st.pyplot(fig)
 
         st.write("Al ordenar los datos de este modo, se observa que África tiene la mayor cantidad de países, mientras que Oceanía y Antártica presentan valores más bajos.")
-    
-    # Gráfico dispersión área vs población
+
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
-
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
-
         fig, ax = plt.subplots(figsize=(8.5, 4))
-
-        # Permite elegir un continente en específico o ver todos
         continentes = st.selectbox(
             "Continente Especifico",
-            ("Ninguno", "América", "Asia", "Europa", "Oceanía", "África", "Antártica"),)
-
-        # Se dibujan los puntos según el continente seleccionado
+            ("Ninguno", "América", "Asia", "Europa", "Oceanía", "África", "Antártica"),
+        )
         for region in regiones:
             if continentes != "Ninguno":
                 if region != continentes:
@@ -201,15 +176,17 @@ with tab1:
                         subset["Área (km²)"],
                         subset["Población"],
                         color=mapa_colores[region],
-                        label=region)
+                        label=region
+                    )
             else:
                 subset = df[df["Región"] == region]
                 ax.scatter(
                         subset["Área (km²)"],
                         subset["Población"],
                         color=mapa_colores[region],
-                        label=region)
-        
+                        label=region
+                )
+
         ax.set_xlabel("Área (km²)")
         ax.set_ylabel("Población")
         ax.set_title("Área vs Población de cada país por Continente")
@@ -220,16 +197,12 @@ with tab1:
         st.write("Se puede notar que Continentes como Europa tienen países pequeños pero muy poblados, mientras que Oceanía tiene países extensos con muy poca población.")
         st.write("De esto, se concluye que no existe relación directa entre tamaño y población.")
 
-# Pestaña que muestra la tabla completa con todos los países
 with tab2:
     st.subheader("Tabla completa de datos")
     st.dataframe(df)
-
-    # Botón para descargar los datos como archivo CSV
     st.download_button(
         label="Descargar datos como CSV",
         data=df.to_csv(index=False),
         file_name="paises.csv",
-        mime="text/csv")
-
-
+        mime="text/csv"
+    )
