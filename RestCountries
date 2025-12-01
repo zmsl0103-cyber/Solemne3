@@ -54,8 +54,8 @@ df["Región"] = df["Región"].replace({
     "Americas": "América",
     "Europe": "Europa",
     "Antarctic": "Antártica",
-    "Africa": "África",
-    "Oceania": "Oceanía"
+    "Africa":   "África",
+    "Oceania":  "Oceanía"
 })
 
 st.title("Análisis de países")
@@ -72,16 +72,16 @@ with tab1:
 
     if selection == "Población por país (Top 10)" :
         st.subheader("Población por país (Top 10)")
-
+        
         top10 = df.sort_values("Población", ascending=False).head(10)
-
+    
         fig, ax = plt.subplots(figsize=(10, 3))
         bars = ax.barh(top10["Nombre"], top10["Población"])
-
+        
         on = st.toggle("Mostrar valores numericos.")
         if on:
             ax.bar_label(bars, label_type='center', padding = 2, fontsize=6)
-
+        
         ax.set_xlabel("Población")
         ax.set_ylabel("País")
         ax.set_title("Top 10 países más poblados")
@@ -89,14 +89,14 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Se observa claramente que China e India son los países más poblados, seguidos por Estados Unidos e Indonesia en un tercer y cuarto lugar bastante lejano.")
-
+        
     if selection == "Distribución de área (km²)" :
         st.subheader("Distribución de área de paises segun continentes (km²)")
-
+    
         regiones = df["Región"].unique()
         mapa_colores = {region: color for region, color in zip(regiones, plt.cm.tab20.colors)}
         df_sorted = df.sort_values("Área (km²)")
-
+        
         fig, ax = plt.subplots(figsize=(13, 5))
         v = st.slider("Elije estilo de lineas.", 1, 4, 1,1)
         if v == 1:
@@ -111,7 +111,7 @@ with tab1:
         elif v == 4:
             styleL = ":"
             styleM = "o"
-
+            
         for region in regiones:
             sub = df_sorted[df_sorted["Región"] == region]
             ax.plot(
@@ -129,7 +129,7 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Las lineas del grafico muestran que algunos continentes tienen países extremadamente extensos, mientras que otros continentes presentan países con áreas más homogéneas")
-
+                 
     if selection == "Distribución de paises por Continentes" :
         st.subheader("Distribución de paises por Continentes")
         reg_counts = df["Región"].value_counts()
@@ -156,7 +156,7 @@ with tab1:
         st.pyplot(fig)
 
         st.write("Al ordenar los datos de este modo, se observa que África tiene la mayor cantidad de países, mientras que Oceanía y Antártica presentan valores más bajos.")
-
+    
     if selection == "Área vs Población por país" :
         st.subheader("Relación entre área y población")
         regiones = df["Región"].unique()
@@ -186,7 +186,7 @@ with tab1:
                         color=mapa_colores[region],
                         label=region
                 )
-
+        
         ax.set_xlabel("Área (km²)")
         ax.set_ylabel("Población")
         ax.set_title("Área vs Población de cada país por Continente")
