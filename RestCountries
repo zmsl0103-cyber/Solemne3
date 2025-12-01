@@ -83,7 +83,7 @@ tab1, tab2 = st.tabs([" Visualizaciones", "Datos completos"])
 with tab1:
     # Lista de gráficos disponibles
     opciones = ["Población por país (Top 10)", "Distribución de área (km²)", "Distribución de paises por Continentes", "Área vs Población por país"]
-    selection = st.pills("Elija el grafico para Visualizar", opciones, selection_mode="single")
+    selection = st.radio("Elija el gráfico para visualizar", opciones)
 
     # Gráfico de Top 10 países más poblados
     if selection == "Población por país (Top 10)" :
@@ -231,4 +231,5 @@ with tab2:
         data=df.to_csv(index=False),
         file_name="paises.csv",
         mime="text/csv")
+
 
